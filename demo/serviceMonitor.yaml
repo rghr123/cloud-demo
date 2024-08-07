@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    k8s-app: demo
+  name: demo
+  namespace: monitoring
+spec:
+  endpoints:
+    - interval: 30s
+      port: tcp
+      path: /actuator/prometheus
+      scheme: 'http'
+  selector:
+    matchLabels:
+      app: demo  # 确保这个标签匹配 Service 的标签
+  namespaceSelector:
+    matchNames:
+      - nju12  # 更新为实际的命名空间

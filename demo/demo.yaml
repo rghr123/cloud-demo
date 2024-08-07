@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo
+  name: demo
+  namespace: nju12
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8081"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+      labels:
+        app: demo
+    spec:
+      containers:
+        - image: harbor.edu.cn/nju12/demo:{VERSION}
+          name: demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  type: NodePort
+  selector:
+    app: demo
+  ports:
+    - name: tcp
+      protocol: TCP
+      port: 80
+      targetPort: 8080
