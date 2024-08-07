@@ -11,7 +11,7 @@ public class PrometheusConfig {
     @Bean
     public MeterRegistryCustomizer<MeterRegistry> prometheusMetrics() {
         return registry -> {
-            registry.config().commonTags("application", "your-application-name");
+            registry.config().commonTags("application", "demo");
         };
     }
 }
